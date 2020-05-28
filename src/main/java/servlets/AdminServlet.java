@@ -21,8 +21,16 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = UserService.INSTANCE.getUserById(Long.parseLong(req.getParameter("id")));
-        //UserService.INSTANCE.updateUser(req.getParameter("name"));
+        User user = new User(
+                Long.parseLong(req.getParameter("id")),
+                req.getParameter("name"),
+                Integer.parseInt(req.getParameter("age")),
+                req.getParameter("pass"));
+        UserService.INSTANCE.updateUser(
+                                Long.parseLong(req.getParameter("id")),
+                                req.getParameter("name"),
+                                Integer.parseInt(req.getParameter("age")),
+                                req.getParameter("pass"));;
         resp.sendRedirect("/");
     }
 }

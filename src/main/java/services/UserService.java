@@ -35,20 +35,12 @@ public class UserService {
         }
     }
 
-    public void updateUser(String id, String name,String age, String password){
+    public void updateUser(Long id, String name,int age, String password){
         if (name.isEmpty() && password.isEmpty()) {
             return;
         }
         try {
-            userDAO.updateUser(
-                    new User(
-                            Long.parseLong(id),
-                            name,
-                            Integer.parseInt(age),
-                            password
-                    )
-
-            );
+            userDAO.updateUser(id, name, age, password);
         } catch (SQLException ignored) {
         }
     }

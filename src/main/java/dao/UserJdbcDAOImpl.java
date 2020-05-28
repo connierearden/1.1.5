@@ -68,11 +68,12 @@ public class UserJdbcDAOImpl implements UserDAO {
         result.close();stmt.close();
         return user;
     }
-    public void updateUser (User usere) throws SQLException {
-        PreparedStatement stmt = getMysqlConnection().prepareStatement("update user set name = ? where name = ? and password = ?");
-        //stmt.setString(1, name);
-        //stmt.setString(2, user.getName());
-        //stmt.setString(3, user.getPassword());
+    public void updateUser (Long id, String name, int age, String password) throws SQLException {
+        PreparedStatement stmt = getMysqlConnection().prepareStatement("update user u set  u.name = ?, u.age = ?, u.password = ?  where u.id = ?");
+        stmt.setString(1, name);
+        stmt.setInt(2, age);
+        stmt.setString(3, password);
+        stmt.setLong(4, id);
         stmt.executeUpdate();
         stmt.close();
 

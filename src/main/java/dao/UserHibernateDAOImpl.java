@@ -76,13 +76,13 @@ public class UserHibernateDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(Long id, String name, int age, String password) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         //make with map
         Query query = session.createQuery("update User u set u.name = :name where u.id = :id");
-        query.setParameter("name", user.getName());
-        query.setParameter("id", user.getId());
+        //query.setParameter("name", user.getName());
+        //query.setParameter("id", user.getId());
         query.executeUpdate();
         tx.commit();
     }
