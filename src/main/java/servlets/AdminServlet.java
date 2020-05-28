@@ -1,6 +1,5 @@
 package servlets;
 
-import models.User;
 import services.UserService;
 
 import javax.servlet.ServletException;
@@ -21,11 +20,6 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = new User(
-                Long.parseLong(req.getParameter("id")),
-                req.getParameter("name"),
-                Integer.parseInt(req.getParameter("age")),
-                req.getParameter("pass"));
         UserService.INSTANCE.updateUser(
                                 Long.parseLong(req.getParameter("id")),
                                 req.getParameter("name"),

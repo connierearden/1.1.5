@@ -63,9 +63,10 @@ public class UserHibernateDAOImpl implements UserDAO {
     public void deleteUser(Long id) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("delete from User u where where u.id = :id");
-            query.setParameter("id", id);
-            tx.commit();
+        /*Query query = session.createQuery("delete from User u where u.id = :id");
+        query.setParameter("id", id);*/
+        session.delete(session.get(User.class, id));
+        tx.commit();
         session.close();
     }
 
@@ -80,9 +81,11 @@ public class UserHibernateDAOImpl implements UserDAO {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         //make with map
-        Query query = session.createQuery("update User u set u.name = :name where u.id = :id");
-        //query.setParameter("name", user.getName());
-        //query.setParameter("id", user.getId());
+        Query query = session.createQuery("update User u set  u.name = :name, u.age = :age, u.password = :password  where u.id = :id");
+        query.setParameter("name", name);
+        query.setParameter("age", age);
+        query.setParameter("password", password);
+        query.setParameter("id",id);
         query.executeUpdate();
         tx.commit();
     }
