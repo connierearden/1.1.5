@@ -54,15 +54,17 @@ public class UserService {
     }
     public void addUser(User user) {
         try {
-            if (user.getName().isEmpty() || user.getPassword().isEmpty()) {
+            if (!user.getName().isEmpty() || !user.getPassword().isEmpty()) {
                 userDAO.addUser(user);
             }
         } catch (SQLException ignored) {}
     }
 
-    public void deleteUser(String name) {
+    public void deleteUser(Long id) {
         try {
-            userDAO.deleteUser(name);
+            if (id != null) {
+                userDAO.deleteUser(id);
+            }
         } catch (SQLException ignored) {}
     }
 }

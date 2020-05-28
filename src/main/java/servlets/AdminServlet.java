@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserService.INSTANCE.deleteUser(req.getParameter("name"));
+        UserService.INSTANCE.deleteUser(Long.parseLong(req.getParameter("id")));
         //getServletContext().getRequestDispatcher("/mainOLD.jsp").forward(req,resp);
         resp.sendRedirect("/");
     }

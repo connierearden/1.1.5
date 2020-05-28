@@ -54,9 +54,9 @@ public class UserJdbcDAOImpl implements UserDAO {
         stmt.executeUpdate();
         stmt.close();
     }
-    public void deleteUser(String userName) throws SQLException {
+    public void deleteUser(Long id) throws SQLException {
         Statement stmt = getMysqlConnection().createStatement();
-        stmt.executeUpdate("delete from user where name = '"+ userName+"'");
+        stmt.executeUpdate("delete from user where id = '"+ id+"'");
         stmt.close();
     }
 
