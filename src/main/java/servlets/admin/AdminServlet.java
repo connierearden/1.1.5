@@ -1,4 +1,4 @@
-package servlets;
+package servlets.admin;
 
 import models.User;
 import services.UserService;
@@ -11,13 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/")
-public class UserServlet extends HttpServlet {
+@WebServlet("/admin/")
+public class AdminServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = UserService.INSTANCE.getAllUsers();
         req.setAttribute("users", users);
-        getServletContext().getRequestDispatcher("/main.jsp").forward(req,resp);
+        req.getRequestDispatcher("/adminHome.jsp").forward(req, resp);
     }
 
     @Override
@@ -26,8 +27,11 @@ public class UserServlet extends HttpServlet {
                 Long.parseLong(req.getParameter("id")),
                 req.getParameter("name"),
                 Integer.parseInt(req.getParameter("age")),
-                req.getParameter("pass"));
+                req.getParameter("pass"),
+                req.getParameter("role"));
         UserService.INSTANCE.addUser(user);
-        doGet(req,resp);
+        /*doGet(req,resp);*/
+        resp.sendRedirect("/admin/");
     }
+
 }

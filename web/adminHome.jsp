@@ -6,36 +6,38 @@
     <title>Users from BD</title>
 </head>
 <body>
-<form action="/" method="post">
-    <tr>
-        <td>
-            <input type="number" name="id">
-        </td>
-        <td>
-            <input type="text" name="name">
-        </td>
-        <td>
-            <input type="number" name="age">
-        </td>
-        <td>
-            <input type="text" name="pass">
-        </td>
-        <button type="submit">Add</button>
-    </tr>
-</form>
+    <form action="/admin/" method="post">
+        <tr>
+            <td>
+                <input type="number" name="id">
+            </td>
+            <td>
+                <input type="text" name="name">
+            </td>
+            <td>
+                <input type="number" name="age">
+            </td>
+            <td>
+                <input type="text" name="pass">
+            </td>
+            <td>
+                <input type="text" name="role">
+            </td>
+            <button type="submit">Add</button>
+        </tr>
+    </form>
 
-<c:if test="${fn:length(users) > 0}">
+    <c:if test="${fn:length(users) > 0}">
         <table border="1" cellspacing="0" cellpadding="2">
             <tr>
                 <td>ID</td>
                 <td>name</td>
                 <td>age</td>
                 <td>password</td>
+                <td>role</td>
             </tr>
          <c:forEach items="${users}" var="user">
-
              <tr>
-                <form method="post" action="/admin" style="margin: 0;">
                     <td>
                         <input type="text" name="id" value="${user.id}" hidden>
                             ${user.id}
@@ -51,21 +53,20 @@
                     <td>
                         <input type="text" name="pass" value="${user.password}">
                     </td>
-
                     <td>
-                        <button type="submit">update</button>
+                        <input type="text" name="role" value="${user.role}">
                     </td>
-                </form>
-                <td>
-                    <form method="get" action="/admin" style="margin: 0;">
-                        <input type="text" name="id" value="${user.id}" hidden>
-                        <button type="submit">delete</button>
-                    </form>
-                </td>
+                    <td>
+                        <input type="button" value="UPDATE" onClick='location.href="${pageContext.request.contextPath}/admin/update/${user.id}"'>
+                    </td>
             </tr>
          </c:forEach>
         </table>
-</c:if>
+    </c:if>
+    <br>
+
+
+    <input type="button" value="DELETE WITH ID" onClick='location.href="${pageContext.request.contextPath}/admin/delete/"'>
 
 
 

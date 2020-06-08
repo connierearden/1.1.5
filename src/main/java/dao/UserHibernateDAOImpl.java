@@ -7,41 +7,30 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import util.DBHelper;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserHibernateDAOImpl implements UserDAO {
     private static SessionFactory sessionFactory;
 
     public Session getSession() {
-        if (sessionFactory==null) {
+        if (sessionFactory == null) {
             sessionFactory = createSessionFactory();
         }
         return sessionFactory.openSession();
     }
 
-    private Configuration getMySqlConfiguration() {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(User.class);
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/users?serverTimezone=UTC");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "12345");
-        configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-        return configuration;
-    }
+
     private SessionFactory createSessionFactory() {
-        Configuration configuration = getMySqlConfiguration();
+        Configuration configuration = DBHelper.INSTANCE.getConfiguration();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
         builder.applySettings(configuration.getProperties());
         ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
+
     @Override
     public List<User> getAllUsers() {
         Session session = getSession();
@@ -73,20 +62,33 @@ public class UserHibernateDAOImpl implements UserDAO {
     @Override
     public User getUserById(long id) {
         Session session = getSession();
-        return session.load(User.class,id);
+        return session.load(User.class, id);
     }
 
     @Override
-    public void updateUser(Long id, String name, int age, String password) {
+    public void updateUser(Long id, String name, int age, String password, String role) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
         //make with map
-        Query query = session.createQuery("update User u set  u.name = :name, u.age = :age, u.password = :password  where u.id = :id");
+        Query query = session.createQuery("update User u set  u.name = :name, u.age = :age, u.password = :password, u.role = :role  where u.id = :id");
         query.setParameter("name", name);
         query.setParameter("age", age);
         query.setParameter("password", password);
-        query.setParameter("id",id);
+        query.setParameter("role", role);
+        query.setParameter("id", id);
         query.executeUpdate();
         tx.commit();
+    }
+
+    public User getUserByLogin(String name, String password) {
+        try {
+            Session session = getSession();
+            Query query = session.createQuery("from User u where u.name = :name and u.password = :pass");
+            query.setParameter("name", name);
+            query.setParameter("pass", password);
+            return (User) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

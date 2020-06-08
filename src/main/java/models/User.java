@@ -1,9 +1,12 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
     @Id
     @Column(name = "id")
@@ -15,20 +18,35 @@ public class User {
     private int age;
     @Column(name = "password")
     private String password;
+    @Column(name = "role")
+    private String role;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(Long id, String name, int age, String password) {
+    public User(Long id, String name, int age, String password, String role) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.password = password;
+        this.role = role;
     }
 
-    public User(String name, int age, String password) {
+    public User(String name, int age, String password, String role) {
         this.name = name;
         this.age = age;
         this.password = password;
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    private void setRole(String role) {
+        String[] array = {"admin", "user"};
+        Set<String> set = new HashSet<>(Arrays.asList(array));
+        this.role = set.contains(role) ? role : null;
     }
 
     public Long getId() {
