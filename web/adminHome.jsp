@@ -59,6 +59,9 @@
                     <td>
                         <input type="button" value="UPDATE" onClick='location.href="${pageContext.request.contextPath}/admin/update/${user.id}"'>
                     </td>
+                     <td>
+                         <input type="button" value="delete" onClick='location.href="${pageContext.request.contextPath}/admin/delete/${user.id}"'>
+                     </td>
             </tr>
          </c:forEach>
         </table>
@@ -66,7 +69,7 @@
     <br>
 
 
-    <input type="button" value="DELETE WITH ID" onClick='location.href="${pageContext.request.contextPath}/admin/delete/"'>
+
 
 
 
